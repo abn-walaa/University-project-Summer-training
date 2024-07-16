@@ -7,8 +7,8 @@ class stage {
         if (!name || !type_id) {
             throw new Error('massing info')
         }
-        let { rwos } = await Pool.query(`insert into stage(name,type_id,is_end) values($1,$2,$3) returning id`, [name, type_id, is_end])
-        return rwos[0].id;
+        let { rows } = await Pool.query(`insert into stage(name,type_id,is_end) values($1,$2,$3) returning id`, [name, type_id, is_end])
+        return rows[0].id;
     }
 
     static async getAll() {
