@@ -16,6 +16,7 @@ class type {
             ` 
             select t.id,t.name,t.amount,c.name as category_name from type_of_studey t
             inner join category c on c.id=t.category_id
+            where t.deleted=false
             `
         )
         return rows
@@ -27,7 +28,7 @@ class type {
         let { rows } = await Pool.query(`
             select t.id,t.name,t.amount,c.name as category_name from type_of_studey t
             inner join category c on c.id=t.category_id
-            where t.category_id=$1
+            where t.category_id=$1 and  t.deleted=false
             `, [id])
         return rows
     }
@@ -37,9 +38,14 @@ class type {
         let { rows } = await Pool.query(`
             select t.id,t.name,t.amount,c.name as category_name from type_of_studey t
             inner join category c on c.id=t.category_id
-            where t.id=$1
+            where t.id=$1 and  t.deleted=false
             `, [id])
         return rows[0]
+    }
+    static async delete(id) {
+        if (!id) throw new Error("massing info!")
+        await Pool.query(`update type_of_studey set deleted=true where id=$1`, [id])
+        return
     }
 }
 

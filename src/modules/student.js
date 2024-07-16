@@ -26,6 +26,7 @@ class student {
             inner join type_of_studey t on t.id=st.type_id
             inner join category c on c.id=t.category_id
             inner join discount d on s.discount_id=d.id
+            where s.deleted=false
             `)
         return rows
     }
@@ -37,7 +38,7 @@ class student {
             inner join type_of_studey t on t.id=st.type_id
             inner join category c on c.id=t.category_id
             inner join discount d on s.discount_id=d.id
-            where s.id=$1 
+            where s.id=$1  and s.deleted=false
             `, [id])
         if (rows.length === 0) throw new Error("the student not found !")
         return rows[0]
@@ -120,6 +121,11 @@ class student {
         } finally {
             client.release()
         }
+    }
+    static async delete(id) {
+        if (!id) throw new Error("massing info!")
+        await Pool.query(`update student set deleted=true where id=$1`, [id])
+        return
     }
 }
 

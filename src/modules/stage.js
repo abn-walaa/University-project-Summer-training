@@ -16,6 +16,7 @@ class stage {
             select s.id,s.name,s.is_end,c.name as category_name,t.amount,t.name as type_name,c.id as category_id from stage s
             inner join type_of_studey t on t.id=s.type_id
             inner join category c on c.id=t.category_id
+            where s.deleted=false
             `)
         return rows
     }
@@ -25,7 +26,7 @@ class stage {
             select s.id,s.name,s.is_end,c.name as category_name,t.amount,t.name as type_name,t.category_id as category_id from stage s
             inner join type_of_studey t on t.id=s.type_id
             inner join category c on c.id=t.category_id
-            where s.id=$1
+            where s.id=$1 and  s.deleted=false
             `, [id])
         if (rows.length === 0) {
             throw new Error("the stage not found !")
@@ -38,11 +39,15 @@ class stage {
             select s.id,s.name,s.is_end,c.name as category_id,t.amount,t.name as type_name from stage s
             inner join type_of_studey t on t.id=s.type_id
             inner join category c on c.id=t.category_id
-            where s.type_id=$1
+            where s.type_id=$1 and  s.deleted=false
             `, [id])
         return rows
     }
-
+    static async delete(id) {
+        if (!id) throw new Error("massing info!")
+        await Pool.query(`update stage set deleted=true where id=$1`, [id])
+        return
+    }
 
 }
 

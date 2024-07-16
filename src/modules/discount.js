@@ -9,16 +9,24 @@ class discount {
         return;
     }
     static async getAll() {
-        let { rows } = await Pool.query(`select id,name,amount from discount`)
+        let { rows } = await Pool.query(`
+            select id,name,amount from discount 
+            where  deleted=false
+            `)
         return rows
     }
     static async getById(id) {
         if (!id) throw new Error("massing info!")
         let { rows } = await Pool.query(`
                 select id,name,amount from discount
-                where id=$1
+                where id=$1 and  deleted=false
             `, [id])
         return rows[0]
+    }
+    static async delete(id) {
+        if (!id) throw new Error("massing info!")
+        await Pool.query(`update discount set deleted=true where id=$1`, [id])
+        return
     }
 }
 

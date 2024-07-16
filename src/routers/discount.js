@@ -22,4 +22,16 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.delete('/:id', async (req, res) => {
+    try {
+
+        await Discount.delete(req.params.id)
+        res.send()
+    } catch (error) {
+        console.error(error)
+        res.status(400).send({ error: error.message })
+    }
+})
+
+
 module.exports = router

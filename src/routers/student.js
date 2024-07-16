@@ -45,4 +45,16 @@ router.patch('/adding/:id', async (req, res) => {
         res.status(400).send({ error: error.message })
     }
 })
+
+router.delete('/:id', async (req, res) => {
+    try {
+
+        await Student.delete(req.params.id)
+        res.send()
+    } catch (error) {
+        console.error(error)
+        res.status(400).send({ error: error.message })
+    }
+})
+
 module.exports = router

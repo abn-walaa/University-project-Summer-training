@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS stage (
     name text NOT NULL,
     time TIMESTAMP DEFAULT NOW() ,
     type_id INTEGER  NOT NULL  REFERENCES type_of_studey(id),
-    is_end BOOLEAN DEFAULT false
+    is_end BOOLEAN DEFAULT false,
+    
 );
 
 CREATE TABLE IF NOT EXISTS student (
@@ -51,3 +52,17 @@ CREATE TABLE IF NOT EXISTS logs_amount (
     why text NoT Null
 );
 
+ALTER TABLE stage
+ADD deleted  BOOLEAN DEFAULT false;
+
+ALTER TABLE student
+ADD deleted  BOOLEAN DEFAULT false;
+
+ALTER TABLE type_of_studey
+ADD deleted  BOOLEAN DEFAULT false;
+
+ALTER TABLE discount
+ADD deleted  BOOLEAN DEFAULT false;
+
+ALTER TABLE category
+ADD deleted  BOOLEAN DEFAULT false;
