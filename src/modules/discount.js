@@ -5,7 +5,7 @@ class discount {
         if (!name) {
             throw new Error("massing info!")
         }
-        if (amount !== 0 && !amount) {
+        if (0 !== Number(amount) && !amount) {
             throw new Error("massing info!")
         }
         await Pool.query(`insert into discount(name, amount) values($1,$2)`, [name, amount])
