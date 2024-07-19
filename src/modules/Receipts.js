@@ -20,7 +20,7 @@ class Receipts {
         if (!id) throw new Error("massing info!")
         let { rows } = await Pool.query(`
     select id,amount,created_at from Receipts
-    where id=$1
+    where student_id=$1
     `, [id])
         return rows
     }
