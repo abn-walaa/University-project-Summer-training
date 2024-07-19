@@ -33,7 +33,7 @@ class student {
     static async getById(id) {
         if (!id) throw new Error("massing info!")
         let { rows } = await Pool.query(`
-            select s.id,s.name,s.stage_id,s.discount_id,s.start_date,s.end_date,s.amount,st.name as stage_name , t.name as type_name , c.name as category_name,st.is_end from student s
+            select s.id,s.name,s.stage_id,s.discount_id,s.start_date,s.end_date,s.amount,st.name as stage_name , t.name as type_name , c.name as category_name,st.is_end,st.amount as stage_amount from student s
             inner join stage st on s.stage_id=st.id
             inner join type_of_studey t on t.id=st.type_id
             inner join category c on c.id=t.category_id
