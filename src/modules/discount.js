@@ -2,7 +2,10 @@ const Pool = require('../db/db')
 
 class discount {
     static async insert(name, amount) {
-        if (!name || !amount) {
+        if (!name) {
+            throw new Error("massing info!")
+        }
+        if (amount !== 0 && !amount) {
             throw new Error("massing info!")
         }
         await Pool.query(`insert into discount(name, amount) values($1,$2)`, [name, amount])
@@ -23,6 +26,7 @@ class discount {
             `, [id])
         return rows[0]
     }
+
     static async delete(id) {
         if (!id) throw new Error("massing info!")
         await Pool.query(`update discount set deleted=true where id=$1`, [id])

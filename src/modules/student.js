@@ -14,7 +14,7 @@ class student {
             throw new Error("NOT FOUND THE STAGE ID!")
         }
         let discount = await Discount.getById(discount_id)
-        let amount = Number(stage.amount) * Number(discount.amount)
+        let amount = (Number(stage.amount) - (Number(stage.amount) * Number(discount.amount)))
         await Pool.query(`insert into student(name,discount_id,stage_id,start_date,end_date,amount) values($1,$2,$3,$4,$5,$6)`, [name, discount_id, stage_id, start_date, endDate, amount])
         return;
     }
@@ -61,7 +61,7 @@ class student {
             throw new Error("student is Ended")
         }
         let stage = await Stage.getById(stage_id)
-        console.log(stage)
+
         let discount;
         if (discount_id) {
             discount = await Discount.getById(discount_id)
@@ -69,7 +69,7 @@ class student {
             discount = await Discount.getById(student.discount_id)
         }
 
-        let amount = Number(stage.amount) * Number(discount.amount);
+        let amount = (Number(stage.amount) - (Number(stage.amount) * Number(discount.amount)))
         student.amount = amount + Number(student.amount);
         let endDate = new Date(start_date)
         endDate.setMonth(endDate.getMonth() + 12)
@@ -97,11 +97,11 @@ class student {
         if (student.is_end) {
             throw new Error("student is Ended")
         }
-        console.log(student)
+
         let stage = await Stage.getById(student.stage_id)
         let discount = await Discount.getById(student.discount_id)
 
-        let amount = (Number(stage.amount) * Number(discount.amount)) / 12;
+        let amount = (Number(stage.amount) - (Number(stage.amount) * Number(discount.amount))) / 12;
 
         let endDate = new Date(student.end_date)
         endDate.setMonth(endDate.getMonth() + monthes)
