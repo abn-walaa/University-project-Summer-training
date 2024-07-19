@@ -10,6 +10,15 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/:id', async (req, res) => {
+    try {
+        let data = await Student.getById(req.params.id)
+        res.send(data)
+    } catch (error) {
+        console.error(error)
+        res.status(400).send({ error: error.message })
+    }
+})
 router.post("/", async (req, res) => {
     try {
         let { name, stage_id, discount_id, start_date } = req.body
