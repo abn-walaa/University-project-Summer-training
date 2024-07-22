@@ -19,12 +19,16 @@ class student {
         return;
     }
 
-    static async getAll(discount_id, stage_id, type_id) {
+    static async getAll(discount_id, stage_id, type_id, name) {
         let sreach = [];
         let data = [];
         if (discount_id) {
             data.push(discount_id)
             sreach.push(`s.discount_id=$${data.length}`)
+        }
+        if (name) {
+            data.push(`%${name}%`)
+            sreach.push(`s.name LIKE $${data.length}`)
         }
         if (stage_id) {
             data.push(stage_id)
@@ -34,6 +38,7 @@ class student {
             data.push(type_id)
             sreach.push(`st.type_id=$${data.length}`)
         }
+        console.log(sreach, data)
 
         let { rows } = await Pool.query(`
             select s.id,s.name,s.discount_id,s.start_date,s.is_end,s.end_date,s.amount,st.name as stage_name , t.name as type_name , c.name as category_name,t.amount as stage_amount,d.amount as discount_amount from student s
