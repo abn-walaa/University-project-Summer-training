@@ -5,7 +5,6 @@ router.get('/', async (req, res) => {
     try {
         let data = await Stage.getAll()
         res.send(data)
-
     } catch (error) {
         console.error(error)
         res.status(400).send({ error: error.message })

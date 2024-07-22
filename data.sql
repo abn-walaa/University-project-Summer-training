@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS category (
 );
 CREATE TABLE IF NOT EXISTS discount (
     id SERIAL PRIMARY KEY,
-    name  text UNIQUE NOT NULL,
+    name  text  NOT NULL,
     amount numeric(4,3) not null,
     time TIMESTAMP DEFAULT NOW() 
 );
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS stage (
     name text NOT NULL,
     time TIMESTAMP DEFAULT NOW() ,
     type_id INTEGER  NOT NULL  REFERENCES type_of_studey(id),
-    is_end BOOLEAN DEFAULT false,
+    is_end BOOLEAN DEFAULT false
     
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS student (
     amount NUMERIC(10, 2) not null
 );
 
-CREATE TABLE IF NOT EXISTS Receipts (
+CREATE TABLE IF NOT EXISTS receipts (
     id SERIAL PRIMARY KEY,
     student_id INTEGER NOT NULL REFERENCES student(id)  ,
     amount NUMERIC(10, 2) not null,

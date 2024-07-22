@@ -2,6 +2,7 @@ const router = require('express').Router()
 const Student = require('../modules/student')
 router.get('/', async (req, res) => {
     try {
+        let { discount_id, stage_id, type_id } = req.query
         let data = await Student.getAll()
         res.send(data)
     } catch (error) {

@@ -19,15 +19,30 @@ class student {
         return;
     }
 
-    static async getAll() {
+    static async getAll(discount_id, stage_id, type_id) {
+        let sreach = [];
+        let data = [];
+        if (discount_id) {
+            data.push(discount_id)
+            sreach.push(`s.discount_id=$${data.length}`)
+        }
+        if (stage_id) {
+            data.push(stage_id)
+            sreach.push(`s.stage_id=$${data.length}`)
+        }
+        if (type_id) {
+            data.push(type_id)
+            sreach.push(`st.type_id=$${data.length}`)
+        }
+
         let { rows } = await Pool.query(`
             select s.id,s.name,s.discount_id,s.start_date,s.is_end,s.end_date,s.amount,st.name as stage_name , t.name as type_name , c.name as category_name,t.amount as stage_amount,d.amount as discount_amount from student s
             inner join stage st on s.stage_id=st.id
             inner join type_of_studey t on t.id=st.type_id
             inner join category c on c.id=t.category_id
             inner join discount d on s.discount_id=d.id
-            where s.deleted=false
-            `)
+            where s.deleted=false ${data.length > 0 ? `and ( ${sreach.join(" and ")} )` : ""}
+            `, data)
         return rows
     }
     static async getById(id) {
